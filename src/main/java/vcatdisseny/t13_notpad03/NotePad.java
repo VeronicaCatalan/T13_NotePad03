@@ -13,8 +13,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 
-
-
 public class NotePad extends javax.swing.JFrame {
 
     
