@@ -130,12 +130,16 @@ public class NotePad extends javax.swing.JFrame {
                     bufRd = new BufferedReader(in);
                 fileBuffer = new StringBuffer();
                 
+                while ((linea = bufRd.readLine()) != null) {
+                    fileBuffer.append(linea).append( System.getProperty("line.separator"));
+                }
+                in.close();
+                fileString = fileBuffer.toString();
                     
             }catch (IOException e){
                 return null;
             }
-        
-        
+        return fileString;      
     }
         
     
