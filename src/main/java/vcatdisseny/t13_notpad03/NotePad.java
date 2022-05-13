@@ -30,9 +30,9 @@ public class NotePad extends javax.swing.JFrame {
         MenuBar = new javax.swing.JMenuBar();
         File = new javax.swing.JMenu();
         New = new javax.swing.JMenuItem();
+        AbirArchivo = new javax.swing.JMenuItem();
         Guardar = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jSeparator = new javax.swing.JPopupMenu.Separator();
         Salir = new javax.swing.JMenuItem();
         Edit = new javax.swing.JMenu();
         Help = new javax.swing.JMenu();
@@ -49,17 +49,17 @@ public class NotePad extends javax.swing.JFrame {
         });
         File.add(New);
 
-        Guardar.setText("Abrir Archivo");
-        Guardar.addActionListener(new java.awt.event.ActionListener() {
+        AbirArchivo.setText("Abrir Archivo");
+        AbirArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GuardarActionPerformed(evt);
+                AbirArchivoActionPerformed(evt);
             }
         });
-        File.add(Guardar);
+        File.add(AbirArchivo);
 
-        jMenuItem2.setText("Guardar");
-        File.add(jMenuItem2);
-        File.add(jSeparator1);
+        Guardar.setText("Guardar");
+        File.add(Guardar);
+        File.add(jSeparator);
 
         Salir.setText("Salir");
         File.add(Salir);
@@ -103,7 +103,8 @@ public class NotePad extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NewActionPerformed
     //abir archivo
-    private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+    
+    private void AbirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbirArchivoActionPerformed
       JFileChooser fileopen =new JFileChooser();  
       FileFilter filter = new FileNameExtensionFilter("c files", "c"); 
       fileopen.addChoosableFileFilter(filter);
@@ -115,7 +116,7 @@ public class NotePad extends javax.swing.JFrame {
           String text = readFile(file);
           TextArea.setText("");
       }      
-    }//GEN-LAST:event_GuardarActionPerformed
+    }//GEN-LAST:event_AbirArchivoActionPerformed
 
             //leer Archivo
         private String readFile(File file) throws FileNotFoundException {
@@ -157,6 +158,7 @@ public class NotePad extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AbirArchivo;
     private javax.swing.JMenu Edit;
     private javax.swing.JMenu File;
     private javax.swing.JMenuItem Guardar;
@@ -165,8 +167,7 @@ public class NotePad extends javax.swing.JFrame {
     private javax.swing.JMenuItem New;
     private javax.swing.JMenuItem Salir;
     private java.awt.TextArea TextArea;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator;
     // End of variables declaration//GEN-END:variables
 
    
