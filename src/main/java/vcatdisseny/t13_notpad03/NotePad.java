@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -38,6 +42,11 @@ public class NotePad extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         File.setText("File");
+        File.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FileActionPerformed(evt);
+            }
+        });
 
         New.setText("New");
         New.addActionListener(new java.awt.event.ActionListener() {
@@ -56,10 +65,20 @@ public class NotePad extends javax.swing.JFrame {
         File.add(AbirArchivo);
 
         Guardar.setText("Guardar");
+        Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarActionPerformed(evt);
+            }
+        });
         File.add(Guardar);
         File.add(jSeparator);
 
         Salir.setText("Salir");
+        Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirActionPerformed(evt);
+            }
+        });
         File.add(Salir);
 
         MenuBar.add(File);
@@ -111,36 +130,95 @@ public class NotePad extends javax.swing.JFrame {
       
       if(ret == JFileChooser.APPROVE_OPTION){
           File file = fileopen.getSelectedFile();
-          String text = readFile(file);
+            try{
+                String text = readFile(file);
+                
+            }catch(FileNotFoundException readFile){
+                
+            }
           TextArea.setText("");
       }      
     }//GEN-LAST:event_AbirArchivoActionPerformed
+  //leer Archivo
+    private String readFile(File file) throws FileNotFoundException {
+        StringBuffer fileBuffer = null;
+        String fileString =null;
+        String linea = null;
 
-            //leer Archivo
-        private String readFile(File file) throws FileNotFoundException {
-            StringBuffer fileBuffer = null;
-            String fileString =null;
-            String linea = null;
-            
-            try{
-                FileReader in;
-                    in = new FileReader(file);
-                BufferedReader bufRd;
-                    bufRd = new BufferedReader(in);
-                fileBuffer = new StringBuffer();
-                
-                while ((linea = bufRd.readLine()) != null) {
-                    fileBuffer.append(linea).append( System.getProperty("line.separator"));
-                }
-                in.close();
-                fileString = fileBuffer.toString();
-                    
-            }catch (IOException e){
-                return null;
+        try{
+            FileReader in;
+                in = new FileReader(file);
+            BufferedReader bufRd;
+                bufRd = new BufferedReader(in);
+            fileBuffer = new StringBuffer();
+
+            while ((linea = bufRd.readLine()) != null) {
+                fileBuffer.append(linea).append( System.getProperty("line.separator"));
             }
-        return fileString;      
-    }
+            in.close();
+            fileString = fileBuffer.toString();
+
+        }catch (IOException e){
+            return null;
+        }
+    return fileString;      
+}
+    private void FileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FileActionPerformed
+
+    private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+       JFileChooser fileChooser = new JFileChooser();
+       fileChooser.showSaveDialog(this);
+       File file = fileChooser.getSelectedFile();
+       
+       if (file != null){
+           try{
+               String fileName = file.getAbsolutePath();
+               
+               if(file.exists()){
+                   int response = JOptionPane.showConfirmDialog(null,
+                           "Do ypu wnat to replace the existing file?",
+                           "Confirm",JOptionPane.YES_NO_CANCEL_OPTION,
+                           JOptionPane.QUESTION_MESSAGE);
+                   if(response != JOptionPane.YES_NO_CANCEL_OPTION){
+                       return;
+                   }
+               }
+               saveFile(fileName);
+               
+               
+           }catch (IOException ex){
+               Logger.getLogger(NotePad.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+     //COMPROVAR SI EXISTE EL ARCHIVO Y SOBREESCRIBIR  
+       private void saveFile(String fileName) throws IOException {
+        PrintWriter writer;
+        writer = null;
+
+            try{
+                writer = new PrintWriter(fileName);
+                writer.print(TextArea.getText());
+
+            }finally{
+                if (null != writer) {
+                    writer.close();
+                }
+            }
         
+        }
+         
+    }//GEN-LAST:event_GuardarActionPerformed
+
+    private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_SalirActionPerformed
+
+      
+    
+    
+       
     
     
     
@@ -167,6 +245,8 @@ public class NotePad extends javax.swing.JFrame {
     private java.awt.TextArea TextArea;
     private javax.swing.JPopupMenu.Separator jSeparator;
     // End of variables declaration//GEN-END:variables
+
+    
 
    
 }
