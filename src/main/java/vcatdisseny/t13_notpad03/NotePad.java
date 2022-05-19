@@ -37,6 +37,9 @@ public class NotePad extends javax.swing.JFrame {
         jSeparator = new javax.swing.JPopupMenu.Separator();
         Salir = new javax.swing.JMenuItem();
         Edit = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         Help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,6 +87,16 @@ public class NotePad extends javax.swing.JFrame {
         MenuBar.add(File);
 
         Edit.setText("Edit");
+
+        jMenuItem1.setText("jMenuItem1");
+        Edit.add(jMenuItem1);
+
+        jMenuItem2.setText("jMenuItem2");
+        Edit.add(jMenuItem2);
+
+        jMenuItem3.setText("jMenuItem3");
+        Edit.add(jMenuItem3);
+
         MenuBar.add(Edit);
 
         Help.setText("Help");
@@ -243,6 +256,9 @@ public class NotePad extends javax.swing.JFrame {
     private javax.swing.JMenuItem New;
     private javax.swing.JMenuItem Salir;
     private java.awt.TextArea TextArea;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator;
     // End of variables declaration//GEN-END:variables
 
