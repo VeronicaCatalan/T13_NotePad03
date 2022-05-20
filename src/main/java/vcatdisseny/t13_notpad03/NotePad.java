@@ -1,4 +1,3 @@
-
 package vcatdisseny.t13_notpad03;
 
 import java.io.BufferedReader;
@@ -15,11 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
-
 public class NotePad extends javax.swing.JFrame {
 
-    
     public NotePad() {
         initComponents();
     }
@@ -28,7 +24,7 @@ public class NotePad extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        TextArea = new java.awt.TextArea();
+        textArea = new java.awt.TextArea();
         MenuBar = new javax.swing.JMenuBar();
         File = new javax.swing.JMenu();
         New = new javax.swing.JMenuItem();
@@ -40,7 +36,8 @@ public class NotePad extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        Help = new javax.swing.JMenu();
+        aboutMenu = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,8 +96,22 @@ public class NotePad extends javax.swing.JFrame {
 
         MenuBar.add(Edit);
 
-        Help.setText("Help");
-        MenuBar.add(Help);
+        aboutMenu.setText("About");
+        aboutMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuActionPerformed(evt);
+            }
+        });
+
+        jMenuItem4.setText("jMenuItem4");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        aboutMenu.add(jMenuItem4);
+
+        MenuBar.add(aboutMenu);
 
         setJMenuBar(MenuBar);
 
@@ -108,11 +119,11 @@ public class NotePad extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TextArea, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TextArea, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+            .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
         );
 
         pack();
@@ -120,115 +131,125 @@ public class NotePad extends javax.swing.JFrame {
 
 // MENU FILE    
     //new archivo
-    
+
     private void NewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewActionPerformed
-      int n = JOptionPane.showConfirmDialog(
-            this,
-            "Do you want to delete the current text?",
-            "Remove test?",
-            JOptionPane.YES_NO_OPTION);
-      
+        int n = JOptionPane.showConfirmDialog(
+                this,
+                "Do you want to delete the current text?",
+                "Remove test?",
+                JOptionPane.YES_NO_OPTION);
+
         if (n == 0) {
-           TextArea.setText(""); 
+            textArea.setText("");
         }
     }//GEN-LAST:event_NewActionPerformed
     //abir archivo
-    
+
     private void AbirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbirArchivoActionPerformed
-      JFileChooser fileopen =new JFileChooser();  
-      FileFilter filter = new FileNameExtensionFilter("c files", "c"); 
-      fileopen.addChoosableFileFilter(filter);
-      
-      int ret = fileopen.showDialog(this, "Abir archivo");
-      
-      if(ret == JFileChooser.APPROVE_OPTION){
-          File file = fileopen.getSelectedFile();
-            try{
+        JFileChooser fileopen = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("c files", "c");
+        fileopen.addChoosableFileFilter(filter);
+
+        int ret = fileopen.showDialog(this, "Abir archivo");
+
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = fileopen.getSelectedFile();
+            try {
                 String text = readFile(file);
-                
-            }catch(FileNotFoundException readFile){
-                
+
+            } catch (FileNotFoundException readFile) {
+
             }
-          TextArea.setText("");
-      }      
+            textArea.setText("");
+        }
     }//GEN-LAST:event_AbirArchivoActionPerformed
-  //leer Archivo
+    //leer Archivo
+
     private String readFile(File file) throws FileNotFoundException {
         StringBuffer fileBuffer = null;
-        String fileString =null;
+        String fileString = null;
         String linea = null;
 
-        try{
+        try {
             FileReader in;
-                in = new FileReader(file);
+            in = new FileReader(file);
             BufferedReader bufRd;
-                bufRd = new BufferedReader(in);
+            bufRd = new BufferedReader(in);
             fileBuffer = new StringBuffer();
 
             while ((linea = bufRd.readLine()) != null) {
-                fileBuffer.append(linea).append( System.getProperty("line.separator"));
+                fileBuffer.append(linea).append(System.getProperty("line.separator"));
             }
             in.close();
             fileString = fileBuffer.toString();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             return null;
         }
-    return fileString;      
-}
+        return fileString;
+    }
     private void FileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FileActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
-       JFileChooser fileChooser = new JFileChooser();
-       fileChooser.showSaveDialog(this);
-       File file = fileChooser.getSelectedFile();
-       
-       if (file != null){
-           try{
-               String fileName = file.getAbsolutePath();
-               
-               if(file.exists()){
-                   int response = JOptionPane.showConfirmDialog(null,
-                           "Do ypu wnat to replace the existing file?",
-                           "Confirm",JOptionPane.YES_NO_CANCEL_OPTION,
-                           JOptionPane.QUESTION_MESSAGE);
-                   if(response != JOptionPane.YES_NO_CANCEL_OPTION){
-                       return;
-                   }
-               }
-               saveFile(fileName);
-               
-               
-           }catch (IOException ex){
-               Logger.getLogger(NotePad.class.getName()).log(Level.SEVERE, null, ex);
-           }
-       }
-     //COMPROVAR SI EXISTE EL ARCHIVO Y SOBREESCRIBIR  
-       private void saveFile(String fileName) throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showSaveDialog(this);
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            try {
+                String fileName = file.getAbsolutePath();
+
+                if (file.exists()) {
+                    int response = JOptionPane.showConfirmDialog(null,
+                            "Do ypu wnat to replace the existing file?",
+                            "Confirm", JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                    if (response != JOptionPane.YES_NO_CANCEL_OPTION) {
+                        return;
+                    }
+                }
+                saveFile(fileName);
+
+            } catch (IOException ex) {
+                Logger.getLogger(NotePad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_GuardarActionPerformed
+    //COMPROVAR SI EXISTE EL ARCHIVO Y SOBREESCRIBIR  
+
+    private void saveFile(String fileName) throws IOException {
         PrintWriter writer;
         writer = null;
 
-            try{
-                writer = new PrintWriter(fileName);
-                writer.print(TextArea.getText());
+        try {
+            writer = new PrintWriter(fileName);
+            writer.print(textArea.getText());
 
-            }finally{
-                if (null != writer) {
-                    writer.close();
-                }
+        } finally {
+            if (null != writer) {
+                writer.close();
             }
-        
         }
-         
-    }//GEN-LAST:event_GuardarActionPerformed
 
+    }
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_SalirActionPerformed
 
-      
+    private void aboutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuActionPerformed
+   
+    }//GEN-LAST:event_aboutMenuActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        AboutDialog about = new AboutDialog (this, true); // true: la ventana se bloquea para el usuario y no puede usar nada hasta q la cierre//    falsae: lo opuesto
+        about.pack();
+        about.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+        
+       
     
     
        
@@ -251,15 +272,16 @@ public class NotePad extends javax.swing.JFrame {
     private javax.swing.JMenu Edit;
     private javax.swing.JMenu File;
     private javax.swing.JMenuItem Guardar;
-    private javax.swing.JMenu Help;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem New;
     private javax.swing.JMenuItem Salir;
-    private java.awt.TextArea TextArea;
+    private javax.swing.JMenu aboutMenu;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPopupMenu.Separator jSeparator;
+    private java.awt.TextArea textArea;
     // End of variables declaration//GEN-END:variables
 
     
