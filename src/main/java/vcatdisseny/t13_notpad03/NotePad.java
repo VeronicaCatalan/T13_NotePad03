@@ -1,5 +1,8 @@
 package vcatdisseny.t13_notpad03;
 
+import java.awt.*;
+import java.awt.datatransfer.*;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +21,12 @@ public class NotePad extends javax.swing.JFrame {
 
     public NotePad() {
         initComponents();
+        
+        setTitle("NOTEPAD");
+        setSize(360, 250);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+       
     }
 
     @SuppressWarnings("unchecked")
@@ -33,21 +42,18 @@ public class NotePad extends javax.swing.JFrame {
         jSeparator = new javax.swing.JPopupMenu.Separator();
         Salir = new javax.swing.JMenuItem();
         Edit = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mCopy = new javax.swing.JMenuItem();
+        mPegar = new javax.swing.JMenuItem();
+        mCortar = new javax.swing.JMenuItem();
         aboutMenu = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         File.setText("File");
-        File.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FileActionPerformed(evt);
-            }
-        });
 
+        New.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        New.setIcon(new javax.swing.ImageIcon("F:\\D. Vero\\Trabajos\\CS. Aplicaciones desarrollo Web\\Programación\\2º año\\13\\iconos\\16ModernXP-26-Filetype-New-icon.png")); // NOI18N
         New.setText("New");
         New.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,6 +62,7 @@ public class NotePad extends javax.swing.JFrame {
         });
         File.add(New);
 
+        AbirArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vcatdisseny/t13_notpad03/16Actions-document-open-icon.png"))); // NOI18N
         AbirArchivo.setText("Abrir Archivo");
         AbirArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,6 +71,7 @@ public class NotePad extends javax.swing.JFrame {
         });
         File.add(AbirArchivo);
 
+        Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vcatdisseny/t13_notpad03/16floppy-icon.png"))); // NOI18N
         Guardar.setText("Guardar");
         Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,14 +93,29 @@ public class NotePad extends javax.swing.JFrame {
 
         Edit.setText("Edit");
 
-        jMenuItem1.setText("jMenuItem1");
-        Edit.add(jMenuItem1);
+        mCopy.setText("Copy");
+        mCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mCopyActionPerformed(evt);
+            }
+        });
+        Edit.add(mCopy);
 
-        jMenuItem2.setText("jMenuItem2");
-        Edit.add(jMenuItem2);
+        mPegar.setText("Pegar");
+        mPegar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mPegarActionPerformed(evt);
+            }
+        });
+        Edit.add(mPegar);
 
-        jMenuItem3.setText("jMenuItem3");
-        Edit.add(jMenuItem3);
+        mCortar.setText("Cortar");
+        mCortar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mCortarActionPerformed(evt);
+            }
+        });
+        Edit.add(mCortar);
 
         MenuBar.add(Edit);
 
@@ -103,7 +126,7 @@ public class NotePad extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem4.setText("jMenuItem4");
+        jMenuItem4.setText("About");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -123,7 +146,7 @@ public class NotePad extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+            .addComponent(textArea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
         );
 
         pack();
@@ -188,10 +211,6 @@ public class NotePad extends javax.swing.JFrame {
         }
         return fileString;
     }
-    private void FileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FileActionPerformed
-
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showSaveDialog(this);
@@ -203,7 +222,7 @@ public class NotePad extends javax.swing.JFrame {
 
                 if (file.exists()) {
                     int response = JOptionPane.showConfirmDialog(null,
-                            "Do ypu wnat to replace the existing file?",
+                            "Do you want to replace the existing file?",
                             "Confirm", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if (response != JOptionPane.YES_NO_CANCEL_OPTION) {
@@ -237,26 +256,62 @@ public class NotePad extends javax.swing.JFrame {
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_SalirActionPerformed
-
+  
+ //MENU ABOUT   
+    
     private void aboutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuActionPerformed
    
     }//GEN-LAST:event_aboutMenuActionPerformed
-
+       
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         AboutDialog about = new AboutDialog (this, true); // true: la ventana se bloquea para el usuario y no puede usar nada hasta q la cierre//    falsae: lo opuesto
         about.pack();
         about.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-        
-       
     
     
-       
+// MENU EDIT         
     
     
-    
-    
+    private void mCopyActionPerformed(ActionEvent evt) {//GEN-FIRST:event_mCopyActionPerformed
+        //textArea.copy();
+
+        String selection = textArea.getSelectedText();
+        if (selection == null)
+            return;
+        StringSelection clipString =new StringSelection(selection);
+        Cboard.setContents(clipString,clipString);
+
+    }//GEN-LAST:event_mCopyActionPerformed
+
+    private void mPegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPegarActionPerformed
+        //textArea.paste();
+
+        Transferable clipData = Cboard.getContents(this);
+        try {
+            String clipString = (String)clipData.getTransferData(DataFlavor.stringFlavor);
+            textArea.replaceRange(clipString,textArea.getSelectionStart(),textArea.getSelectionEnd());
+        }
+        catch(Exception ex) {
+            System.err.println("Not Working");
+        }
+             
+    }//GEN-LAST:event_mPegarActionPerformed
+
+    private void mCortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mCortarActionPerformed
+        //textArea.cut();
+
+        String selection = textArea.getSelectedText();
+        if (selection == null)
+            return;
+        StringSelection clipString = new StringSelection(selection);
+        Cboard.setContents(clipString, clipString);
+        textArea.replaceRange("", textArea.getSelectionStart(), textArea.getSelectionEnd());
+
+    }//GEN-LAST:event_mCortarActionPerformed
+
+
     
     public static void main(String args[]) {
        
@@ -276,15 +331,16 @@ public class NotePad extends javax.swing.JFrame {
     private javax.swing.JMenuItem New;
     private javax.swing.JMenuItem Salir;
     private javax.swing.JMenu aboutMenu;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPopupMenu.Separator jSeparator;
+    private javax.swing.JMenuItem mCopy;
+    private javax.swing.JMenuItem mCortar;
+    private javax.swing.JMenuItem mPegar;
     private java.awt.TextArea textArea;
     // End of variables declaration//GEN-END:variables
 
-    
+Clipboard Cboard = getToolkit().getSystemClipboard();    
 
-   
 }
+
+
